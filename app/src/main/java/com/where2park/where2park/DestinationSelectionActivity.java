@@ -38,7 +38,7 @@ public class DestinationSelectionActivity extends AppCompatActivity {
 
         destinationList.setLayoutManager(layoutManager);
 
-        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations.size(), destinations);
+        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations);
 
         destinationList.setAdapter(destinationAdapter);
 
