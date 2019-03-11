@@ -1,7 +1,9 @@
 package com.where2park.where2park;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class ParkingSelectionActivity extends AppCompatActivity {
 
@@ -11,6 +13,16 @@ public class ParkingSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parking_selection);
 
         //1. take in parameter of destination chosen
+
+        Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+
+        String destinationName = extras.getString("DESTINATION_NAME");
+
+        TextView textView = findViewById(R.id.parkingSelectionTitle);
+        textView.setText(destinationName);
+
 
         //2. retrieve the appropriate arrayList of places to search
 

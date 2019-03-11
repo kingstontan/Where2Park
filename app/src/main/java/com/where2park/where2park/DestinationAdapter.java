@@ -36,8 +36,8 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Destination destination = destinations.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Destination destination = destinations.get(position);
         holder.destinationName.setText(destination.getName());
 
 
@@ -46,6 +46,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent i = new Intent(context, ParkingSelectionActivity.class);
+                i.putExtra("DESTINATION_NAME",destination.getName());
                 context.startActivity(i);
             }
         });
