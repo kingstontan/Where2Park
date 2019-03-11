@@ -32,6 +32,8 @@ public class DestinationSelectionActivity extends AppCompatActivity {
 
         RecyclerView destinationList = findViewById(R.id.destinationList);
 
+        destinationList.setHasFixedSize(true);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         destinationList.setLayoutManager(layoutManager);
