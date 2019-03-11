@@ -3,6 +3,8 @@ package com.where2park.where2park;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -28,18 +30,25 @@ public class DestinationSelectionActivity extends AppCompatActivity {
 
 
 
-        ListView destinationList = findViewById(R.id.destinationList);
+        RecyclerView destinationList = findViewById(R.id.destinationList);
 
-        DestinationAdapter destinationAdapter = new DestinationAdapter(this, destinations);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        destinationList.setLayoutManager(layoutManager);
+
+        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations.size(), destinations);
 
         destinationList.setAdapter(destinationAdapter);
 
-        destinationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(DestinationSelectionActivity.this, ParkingSelectionActivity.class);
-                startActivity(i);
-            }
-        });
+
+
+
+//        destinationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent i = new Intent(DestinationSelectionActivity.this, ParkingSelectionActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 }
