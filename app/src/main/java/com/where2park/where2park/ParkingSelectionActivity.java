@@ -12,16 +12,22 @@ public class ParkingSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_selection);
 
-        //1. take in parameter of destination chosen
+        //0. retrieve user's location
+
+        //1. take in parameter of destination chosen and user's location
 
         Intent intent = getIntent();
 
         Bundle extras = intent.getExtras();
 
-        String destinationName = extras.getString("DESTINATION_NAME");
+        if (extras != null) {
+            String destinationName = extras.getString("DESTINATION_NAME");
 
-        TextView textView = findViewById(R.id.parkingSelectionTitle);
-        textView.setText(destinationName);
+            TextView textView = findViewById(R.id.parkingSelectionTitle);
+            textView.setText(destinationName);
+        }
+
+
 
 
         //2. retrieve the appropriate arrayList of places to search
