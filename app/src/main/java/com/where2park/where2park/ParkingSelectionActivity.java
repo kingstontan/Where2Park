@@ -23,8 +23,8 @@ public class ParkingSelectionActivity extends AppCompatActivity {
         if (extras != null) {
             String destinationName = extras.getString("DESTINATION_NAME");
 
-            TextView textView = findViewById(R.id.parkingSelectionTitle);
-            textView.setText(destinationName);
+//            TextView textView = findViewById(R.id.parkingSelectionTitle);
+//            textView.setText(destinationName);
         }
 
 
