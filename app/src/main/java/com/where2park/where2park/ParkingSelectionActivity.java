@@ -3,6 +3,8 @@ package com.where2park.where2park;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ public class ParkingSelectionActivity extends AppCompatActivity {
         if (extras != null) {
             destinationName = extras.getString("DESTINATION_NAME");
 
+            TextView parkingSelectionTitle = findViewById(R.id.parkingSelectionTitle);
+            parkingSelectionTitle.setText("Parkings at " + destinationName);
+
             //2. retrieve the appropriate arrayList of places to search
 
             ArrayList<Parking> parkings = new ArrayList<>();
@@ -56,6 +61,18 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
             Collections.sort(parkings);
 
+            //5. create recycler view
+
+            RecyclerView destinationList = findViewById(R.id.destinationList);
+
+            destinationList.setHasFixedSize(true);
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+
+            //6. populate recycler view with cardview
+
+
         }
 
 
@@ -65,15 +82,58 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
 
 
-        //5. create recycler view
 
-        //6. populate recycler view with cardview
 
 
 
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
