@@ -2,6 +2,7 @@ package com.where2park.where2park;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +14,26 @@ import java.util.ArrayList;
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHolder> {
 
     private ArrayList<Parking> parkings;
+    private Context context;
 
-    public ParkingAdapter(ArrayList<Parking> parkings) {
+    public ParkingAdapter(ArrayList<Parking> parkings, Context context) {
         this.parkings = parkings;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ParkingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ParkingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Context context = viewGroup.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View view = inflater.inflate(R.layout.parking_list_item, viewGroup, false);
-        ParkingAdapter.ViewHolder viewHolder = new ViewHolder(view);
-
-        return viewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.parking_list_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ParkingAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+
+        final Parking parking = parkings.get(position);
 
     }
 
@@ -43,6 +44,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        private CardView cardView;
         private TextView parkingName;
         private TextView parkingsAvailable;
         private TextView eta;
@@ -50,6 +52,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            cardView = itemView.findViewById(R.id.cardView);
             parkingName = itemView.findViewById(R.id.parkingName);
             parkingsAvailable = itemView.findViewById(R.id.parkingsAvailable);
             eta = itemView.findViewById(R.id.eta);

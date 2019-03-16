@@ -22,9 +22,6 @@ public class DestinationSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination_selection);
 
-
-
-
         ArrayList<Destination> destinations = new ArrayList<>();
 
         destinations.add(new Destination("Sunway Pyramid"));
@@ -33,21 +30,13 @@ public class DestinationSelectionActivity extends AppCompatActivity {
         destinations.add(new Destination("Sunway Geo"));
         destinations.add(new Destination("Sunway Medical"));
 
-
-
-
-
         RecyclerView destinationList = findViewById(R.id.destinationList);
 
-        destinationList.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-
-        destinationList.setLayoutManager(layoutManager);
-
-        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations);
+        DestinationAdapter destinationAdapter = new DestinationAdapter(destinations, this);
 
         destinationList.setAdapter(destinationAdapter);
+
+        destinationList.setLayoutManager(new LinearLayoutManager(this));
 
 
     }

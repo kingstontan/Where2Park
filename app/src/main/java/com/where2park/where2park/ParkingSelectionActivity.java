@@ -63,11 +63,13 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
             //5. create recycler view
 
-            RecyclerView destinationList = findViewById(R.id.destinationList);
+            RecyclerView parkingList = findViewById(R.id.parkingList);
 
-            destinationList.setHasFixedSize(true);
+            ParkingAdapter parkingAdapter = new ParkingAdapter(parkings, this);
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            parkingList.setAdapter(parkingAdapter);
+
+            parkingList.setLayoutManager(new LinearLayoutManager(this));
 
 
             //6. populate recycler view with cardview

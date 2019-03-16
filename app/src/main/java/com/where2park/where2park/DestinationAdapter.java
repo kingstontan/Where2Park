@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,26 +15,25 @@ import java.util.ArrayList;
 public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.ViewHolder> {
 
     private ArrayList<Destination> destinations;
+    private Context context;
 
-    public DestinationAdapter(ArrayList<Destination> destinations) {
+    public DestinationAdapter(ArrayList<Destination> destinations, Context context) {
         this.destinations = destinations;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Context context = viewGroup.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View view = inflater.inflate(R.layout.destination_list_item, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        return viewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.destination_list_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+
         final Destination destination = destinations.get(position);
         holder.destinationName.setText(destination.getName());
 
@@ -55,11 +55,12 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        private FrameLayout frame;
         private TextView destinationName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            frame = itemView.findViewById(R.id.frame);
             destinationName = itemView.findViewById(R.id.destinationName);
         }
 
