@@ -19,9 +19,12 @@ public class ParkingSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_selection);
 
+
+
         ArrayList<Parking> sunwayUniversityParkings = new ArrayList<>();
         sunwayUniversityParkings.add(new Parking("Sunway University Basement"));
         sunwayUniversityParkings.add(new Parking("BRT Parking"));
+
 
 
         String destinationName;
@@ -38,6 +41,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             destinationName = extras.getString("DESTINATION_NAME");
 
             TextView parkingSelectionTitle = findViewById(R.id.parkingSelectionTitle);
+
             parkingSelectionTitle.setText("Parkings at " + destinationName);
 
             //2. retrieve the appropriate arrayList of places to search
@@ -62,6 +66,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             Collections.sort(parkings);
 
             //5. create recycler view
+            //6. populate recycler view with cardview
 
             RecyclerView parkingList = findViewById(R.id.parkingList);
 
@@ -72,7 +77,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             parkingList.setLayoutManager(new LinearLayoutManager(this));
 
 
-            //6. populate recycler view with cardview
+
 
 
         }

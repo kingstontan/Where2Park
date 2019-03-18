@@ -35,6 +35,10 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
 
         final Parking parking = parkings.get(position);
 
+        holder.parkingName.setText(parking.getName());
+        holder.parkingsAvailable.setText(String.valueOf(parking.getLotsavailable()));
+        holder.eta.setText(String.valueOf(parking.getEtadrive()) + " mins drive + " + String.valueOf(parking.getEtawalk()) + " mins walk");
+
     }
 
     @Override

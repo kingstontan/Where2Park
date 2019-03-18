@@ -58,7 +58,7 @@ public class Parking implements Comparable<Parking>{
         setEtadrive(3);
         setEtawalk(3);
         setLotsavailable(500);
-        setScore(3);
+        setScore(lotsavailable - etadrive - etawalk);
     }
 
     @Override

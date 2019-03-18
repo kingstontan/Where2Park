@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,6 +23,7 @@ public class DestinationSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination_selection);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         ArrayList<Destination> destinations = new ArrayList<>();
 
@@ -37,7 +40,6 @@ public class DestinationSelectionActivity extends AppCompatActivity {
         destinationList.setAdapter(destinationAdapter);
 
         destinationList.setLayoutManager(new LinearLayoutManager(this));
-
 
     }
 }
