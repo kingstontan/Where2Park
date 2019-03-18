@@ -9,6 +9,8 @@
         <item>Sunway Medical</item>
     </string-array>
 
-    <integer name="transitionSpeed">150</integer>
+    <integer name="transitionSpeedOpen">250</integer>
+    <integer name="transitionSpeedClose">200</integer>
+
 
 </resources>
