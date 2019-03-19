@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="500m"/>
+            android:text="500m"
+            android:textSize="12dp"/>
 
     </LinearLayout>
 
