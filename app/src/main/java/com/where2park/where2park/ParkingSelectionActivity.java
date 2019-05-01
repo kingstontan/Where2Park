@@ -110,7 +110,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
-                p.updateRealTimeInfo();
+               // p.updateRealTimeInfo();
             }
 
             //5. inserts objects into arrayList in CORRECT sequence
