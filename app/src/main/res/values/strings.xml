@@ -1,13 +1,7 @@
 <resources>
     <string name="app_name">Where2Park</string>
 
-    <string-array name="destinationArray">
-        <item>Sunway Pyramid</item>
-        <item>Sunway University</item>
-        <item>Monash University</item>
-        <item>Sunway Geo</item>
-        <item>Sunway Medical</item>
-    </string-array>
+    <string name="google_map_api_key">AIzaSyBVyN6DLB8sIaJckdLb7EmHKcPvEeNmb9E</string>
 
     <integer name="transitionSpeedOpen">250</integer>
     <integer name="transitionSpeedClose">200</integer>

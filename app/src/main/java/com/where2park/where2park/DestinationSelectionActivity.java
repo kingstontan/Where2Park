@@ -1,22 +1,16 @@
 package com.where2park.where2park;
 
 import android.content.Intent;
-import android.location.LocationManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DestinationSelectionActivity extends AppCompatActivity {
+
 
 
     @Override
@@ -42,6 +36,10 @@ public class DestinationSelectionActivity extends AppCompatActivity {
         destinationList.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
+
+
+
 
     @Override
     public void finish() {
