@@ -55,6 +55,11 @@ public class Parking implements Comparable<Parking>{
 
     //implementation to be updated
     public void updateRealTimeInfo(){
+
+
+
+
+
         setEtadrive(3);
         setEtawalk(3);
         setLotsavailable(500);
