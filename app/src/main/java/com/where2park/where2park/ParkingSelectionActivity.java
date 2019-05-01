@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,9 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient mFusedLocationClient;
 
+    public static double lat;
+    public static double lon;
+
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation: called.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -47,10 +51,12 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<android.location.Location> task) {
                 if (task.isSuccessful()) {
-                    Location location = task.getResult();
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    Location userLocation = task.getResult();
+                    GeoPoint geoPoint = new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
                     Log.d(TAG, "onComplete: latitude: " + geoPoint.getLatitude());
                     Log.d(TAG, "onComplete: longitude: " + geoPoint.getLongitude());
+                    lat = geoPoint.getLatitude();
+                    lon = geoPoint.getLongitude();
                 }
             }
         });
@@ -62,6 +68,10 @@ public class ParkingSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_selection);
@@ -103,14 +113,12 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
             //3. retrieve user's location
 
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
             getLastKnownLocation();
 
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
-               // p.updateRealTimeInfo();
+                p.updateRealTimeInfo(getString(R.string.google_map_api_key),lat, lon);
             }
 
             //5. inserts objects into arrayList in CORRECT sequence

@@ -65,14 +65,28 @@ public class Parking implements Comparable<Parking>{
         this.score = score;
     }
 
-    //implementation to be updated
-    public void updateRealTimeInfo(String apikey, Location userlocation){
+
+//    public void updateRealTimeInfo(){
+//
+//        if(mGeoApiContext == null){
+//            mGeoApiContext = new GeoApiContext.Builder().apiKey("AIzaSyBVyN6DLB8sIaJckdLb7EmHKcPvEeNmb9E").build();
+//        }
+//
+//        calculateDirections(ParkingSelectionActivity.userLocation);
+//
+//        setEtadrive(3);
+//        setEtawalk(3);
+//        setLotsavailable(500);
+//        setScore(lotsavailable - etadrive - etawalk);
+//    }
+
+    public void updateRealTimeInfo(String apikey, double lat, double lon){
 
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder().apiKey(apikey).build();
         }
 
-        calculateDirections(userlocation);
+        calculateDirections(lat,lon);
 
         setEtadrive(3);
         setEtawalk(3);
@@ -85,7 +99,7 @@ public class Parking implements Comparable<Parking>{
         return o.getScore() - this.getScore() ;
     }
 
-    private void calculateDirections(Location userlocation){
+    private void calculateDirections(double lat, double lon){
         Log.d(TAG, "calculateDirections: calculating directions.");
 
         com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
@@ -97,8 +111,7 @@ public class Parking implements Comparable<Parking>{
         directions.alternatives(true);
         directions.origin(
                 new com.google.maps.model.LatLng(
-                        userlocation.getLatitude(),
-                        userlocation.getLongitude()
+                        lat, lon
                 )
         );
         Log.d(TAG, "calculateDirections: destination: " + destination.toString());
