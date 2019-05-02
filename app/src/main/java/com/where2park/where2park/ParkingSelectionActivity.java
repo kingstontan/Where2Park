@@ -4,10 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -39,8 +41,6 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient mFusedLocationClient;
 
-    public static double lat;
-    public static double lon;
 
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation: called.");
@@ -55,8 +55,12 @@ public class ParkingSelectionActivity extends AppCompatActivity {
                     GeoPoint geoPoint = new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
                     Log.d(TAG, "onComplete: latitude: " + geoPoint.getLatitude());
                     Log.d(TAG, "onComplete: longitude: " + geoPoint.getLongitude());
-                    lat = geoPoint.getLatitude();
-                    lon = geoPoint.getLongitude();
+
+//                    SharedPreferences sharedpreferences = getSharedPreferences("com.where2park.where2park", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedpreferences.edit();
+//                    editor.putFloat("lat", (float)geoPoint.getLatitude());
+//                    editor.putFloat("lon", (float)geoPoint.getLongitude());
+//                    editor.apply();
                 }
             }
         });
@@ -118,7 +122,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
-                p.updateRealTimeInfo(getString(R.string.google_map_api_key),lat, lon);
+                p.updateRealTimeInfo(getString(R.string.google_map_api_key),234,234);
             }
 
             //5. inserts objects into arrayList in CORRECT sequence

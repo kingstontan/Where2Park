@@ -66,19 +66,12 @@ public class Parking implements Comparable<Parking>{
     }
 
 
-//    public void updateRealTimeInfo(){
-//
-//        if(mGeoApiContext == null){
-//            mGeoApiContext = new GeoApiContext.Builder().apiKey("AIzaSyBVyN6DLB8sIaJckdLb7EmHKcPvEeNmb9E").build();
-//        }
-//
-//        calculateDirections(ParkingSelectionActivity.userLocation);
-//
-//        setEtadrive(3);
-//        setEtawalk(3);
-//        setLotsavailable(500);
-//        setScore(lotsavailable - etadrive - etawalk);
-//    }
+    @Override
+    public int compareTo(Parking o) {
+        return o.getScore() - this.getScore() ;
+    }
+
+
 
     public void updateRealTimeInfo(String apikey, double lat, double lon){
 
@@ -94,10 +87,7 @@ public class Parking implements Comparable<Parking>{
         setScore(lotsavailable - etadrive - etawalk);
     }
 
-    @Override
-    public int compareTo(Parking o) {
-        return o.getScore() - this.getScore() ;
-    }
+
 
     private void calculateDirections(double lat, double lon){
         Log.d(TAG, "calculateDirections: calculating directions.");
@@ -115,26 +105,43 @@ public class Parking implements Comparable<Parking>{
                 )
         );
         Log.d(TAG, "calculateDirections: destination: " + destination.toString());
-        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
-            @Override
-            public void onResult(DirectionsResult result) {
-                Log.d(TAG, "onResult: routes: " + result.routes[0].toString());
-                Log.d(TAG, "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
-            }
 
-            @Override
-            public void onFailure(Throwable e) {
-                Log.e(TAG, "onFailure: " + e.getMessage() );
+
+        directions.destination(destination).setCallback(
+            new PendingResult.Callback<DirectionsResult>() {
+                @Override
+                public void onResult(DirectionsResult result) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable e) {
+                    Log.e(TAG, "onFailure: " + e.getMessage() );
+                }
+
+
+
 
             }
-        });
+        );
     }
+
 }
 
 
 
 
-
+//            @Override
+//            public void onResult(DirectionsResult result) {
+//                Log.d(TAG, "onResult: routes: " + result.routes[0].toString());
+//                Log.d(TAG, "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                Log.e(TAG, "onFailure: " + e.getMessage() );
+//
+//            }
 
 
 
