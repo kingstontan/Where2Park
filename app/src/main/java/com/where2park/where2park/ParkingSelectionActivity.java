@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -18,9 +20,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,33 +41,78 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
     private static final String TAG = "ParkingSelectionAct";
 
+    private static Location userLocation = new Location("");
+
+
     private FusedLocationProviderClient mFusedLocationClient;
 
 
-    private void getLastKnownLocation() {
-        Log.d(TAG, "getLastKnownLocation: called.");
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<android.location.Location>() {
-            @Override
-            public void onComplete(@NonNull Task<android.location.Location> task) {
-                if (task.isSuccessful()) {
-                    Location userLocation = task.getResult();
-                    GeoPoint geoPoint = new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
-                    Log.d(TAG, "onComplete: latitude: " + geoPoint.getLatitude());
-                    Log.d(TAG, "onComplete: longitude: " + geoPoint.getLongitude());
+//    private void getLastKnownLocation() {
+//        Log.d(TAG, "getLastKnownLocation: called.");
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<android.location.Location>() {
+//            @Override
+//            public void onComplete(@NonNull Task<android.location.Location> task) {
+//                if (task.isSuccessful()) {
+//                    userLocation = task.getResult();
+//                    GeoPoint geoPoint = new GeoPoint(userLocation.getLatitude(), userLocation.getLongitude());
+//                    Log.d(TAG, "onComplete: latitude: " + geoPoint.getLatitude());
+//                    Log.d(TAG, "onComplete: longitude: " + geoPoint.getLongitude());
+//
+//                }
+//            }
+//        });
+//
+//    }
+//
+//    @SuppressLint("MissingPermission")
+//    protected void getLocation() {
+//
+//        LocationListener locationListener = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(Location location) {
+//
+//            }
+//
+//            @Override
+//            public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderEnabled(String provider) {
+//
+//            }
+//
+//            @Override
+//            public void onProviderDisabled(String provider) {
+//
+//            }
+//        };
+//
+//        LocationManager locationManager = (LocationManager)  this.getSystemService(Context.LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
+//        String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true)).toString();
+//
+//        //You can still do this if you like, you might get lucky:
+//        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(bestProvider);
+//        if (location != null) {
+//            Log.e("TAG", "GPS is on");
+//            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+//            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+//        }
+//        else{
+//            //This is what you need:
+//            locationManager.requestLocationUpdates(bestProvider,0,100,locationListener);
+//            userLocation = location;
+//        }
+//
+//
+//    }
 
-//                    SharedPreferences sharedpreferences = getSharedPreferences("com.where2park.where2park", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = sharedpreferences.edit();
-//                    editor.putFloat("lat", (float)geoPoint.getLatitude());
-//                    editor.putFloat("lon", (float)geoPoint.getLongitude());
-//                    editor.apply();
-                }
-            }
-        });
 
-    }
 
 
     @Override
@@ -117,12 +164,14 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
             //3. retrieve user's location
 
-            getLastKnownLocation();
+
+//            getLastKnownLocation();
+//            getLocation();
 
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
-                p.updateRealTimeInfo(getString(R.string.google_map_api_key),234,234);
+                p.updateRealTimeInfo(getString(R.string.google_map_api_key),userLocation.getLatitude(), userLocation.getLongitude(), this);
             }
 
             //5. inserts objects into arrayList in CORRECT sequence
