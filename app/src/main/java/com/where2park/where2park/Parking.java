@@ -10,10 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.model.DirectionsResult;
 
 public class Parking implements Comparable<Parking>{
 
@@ -80,7 +77,7 @@ public class Parking implements Comparable<Parking>{
 
 
 
-    public void updateRealTimeInfo(String apikey, double lat, double lon, Context context){
+    public void updateRealTimeInfo(String apikey, Location location, Context context){
 
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder().apiKey(apikey).build();
@@ -90,7 +87,7 @@ public class Parking implements Comparable<Parking>{
         RequestQueue queue = Volley.newRequestQueue(context);
 
         String url =("https://maps.googleapis.com/maps/api/directions/json?" +
-                "origin=" + lat + "," + lon +
+                "origin=" + location.getLatitude() + "," + location.getLongitude() +
                 "&destination=" + "place_id:ChIJS2QSWY9MzDERaa1cIqAvYXc" +
                 "&key=" + apikey);
 

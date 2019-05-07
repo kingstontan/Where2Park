@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class DestinationSelectionActivity extends AppCompatActivity {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +35,6 @@ public class DestinationSelectionActivity extends AppCompatActivity {
         destinationList.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
-
 
 
 
