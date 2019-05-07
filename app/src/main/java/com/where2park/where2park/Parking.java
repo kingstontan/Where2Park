@@ -15,6 +15,8 @@ import com.google.maps.GeoApiContext;
 public class Parking implements Comparable<Parking>{
 
     private String name;
+    private double lat;
+    private double lon;
     private int lotsavailable;
     private int etadrive;
     private int etawalk;
@@ -35,6 +37,22 @@ public class Parking implements Comparable<Parking>{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 
     public int getLotsavailable() {
@@ -79,6 +97,9 @@ public class Parking implements Comparable<Parking>{
 
     public void updateRealTimeInfo(String apikey, Location location, Context context){
 
+        this.setLat(location.getLatitude());
+        this.setLon(location.getLongitude());
+
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder().apiKey(apikey).build();
         }
@@ -87,7 +108,7 @@ public class Parking implements Comparable<Parking>{
         RequestQueue queue = Volley.newRequestQueue(context);
 
         String url =("https://maps.googleapis.com/maps/api/directions/json?" +
-                "origin=" + location.getLatitude() + "," + location.getLongitude() +
+                "origin=" + this.getLat() + "," + this.getLon() +
                 "&destination=" + "place_id:ChIJS2QSWY9MzDERaa1cIqAvYXc" +
                 "&key=" + apikey);
 

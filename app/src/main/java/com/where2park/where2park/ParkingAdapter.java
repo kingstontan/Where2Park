@@ -1,15 +1,21 @@
 package com.where2park.where2park;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static com.android.volley.VolleyLog.TAG;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHolder> {
 
@@ -38,6 +44,28 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
         holder.parkingName.setText(parking.getName());
         holder.parkingsAvailable.setText(String.valueOf(parking.getLotsavailable()));
         holder.eta.setText(String.valueOf(parking.getEtadrive()) + " mins drive + " + String.valueOf(parking.getEtawalk()) + " mins walk");
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                String latitude = String.valueOf(parking.getLat());
+                String longitude = String.valueOf(parking.getLon());
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+                context.startActivity(mapIntent);
+//                try{
+//                    if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//                        startActivity(mapIntent);
+//                    }
+//                }catch (NullPointerException e){
+//                    Log.e(TAG, "onClick: NullPointerException: Couldn't open map." + e.getMessage() );
+//                    Toast.makeText(getActivity(), "Couldn't open map", Toast.LENGTH_SHORT).show();
+//                }
+            }
+        });
 
     }
 
