@@ -6,16 +6,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static com.android.volley.VolleyLog.TAG;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHolder> {
 
@@ -49,9 +45,8 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                String latitude = String.valueOf(parking.getLat());
-                String longitude = String.valueOf(parking.getLon());
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
+                String address = parking.getAddress();
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + address);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
 

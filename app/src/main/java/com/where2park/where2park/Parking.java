@@ -8,17 +8,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.maps.GeoApiContext;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Parking implements Comparable<Parking>{
 
     private String name;
-    private double lat;
-    private double lon;
+    private String address;
     private int lotsavailable;
-    private int etadrive;
+    private String etadrive;
     private int etawalk;
     private int score;
 
@@ -26,8 +30,10 @@ public class Parking implements Comparable<Parking>{
     private GeoApiContext mGeoApiContext = null;
 
 
-    public Parking(String name) {
+    public Parking(String name, String address) {
         this.name = name;
+        this.address = address;
+        this.etadrive = "fafafa";
     }
 
     public String getName() {
@@ -39,20 +45,12 @@ public class Parking implements Comparable<Parking>{
         this.name = name;
     }
 
-    public double getLat() {
-        return lat;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getLotsavailable() {
@@ -63,11 +61,11 @@ public class Parking implements Comparable<Parking>{
         this.lotsavailable = lotsavailable;
     }
 
-    public int getEtadrive() {
+    public String getEtadrive() {
         return etadrive;
     }
 
-    public void setEtadrive(int etadrive) {
+    public void setEtadrive(String etadrive) {
         this.etadrive = etadrive;
     }
 
@@ -97,8 +95,6 @@ public class Parking implements Comparable<Parking>{
 
     public void updateRealTimeInfo(String apikey, Location location, Context context){
 
-        this.setLat(location.getLatitude());
-        this.setLon(location.getLongitude());
 
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder().apiKey(apikey).build();
@@ -108,35 +104,47 @@ public class Parking implements Comparable<Parking>{
         RequestQueue queue = Volley.newRequestQueue(context);
 
         String url =("https://maps.googleapis.com/maps/api/directions/json?" +
-                "origin=" + this.getLat() + "," + this.getLon() +
-                "&destination=" + "place_id:ChIJS2QSWY9MzDERaa1cIqAvYXc" +
+                "origin=" + location.getLatitude() + "," + location.getLongitude() +
+                "&destination=" + this.getAddress() +
                 "&key=" + apikey);
 
 
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d(TAG, "calculateDirections: " + response.substring(0));
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray routesArray = response.getJSONArray("routes");
+
+                            JSONObject routesObject = routesArray.getJSONObject(0);
+
+                            JSONArray legsArray = routesObject.getJSONArray("legs");
+
+                            JSONObject legsObject = legsArray.getJSONObject(0);
+
+                            JSONObject duration = legsObject.getJSONObject("duration");
+
+                            setEtadrive(duration.getString("text"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "calculateDirections: ERROR");
+                 error.printStackTrace();
             }
         });
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(request);
 
-
-        setEtadrive(3);
         setEtawalk(3);
         setLotsavailable(500);
-        setScore(lotsavailable - etadrive - etawalk);
+        setScore(lotsavailable - 124 - etawalk);
     }
 
 

@@ -69,6 +69,8 @@ public class ParkingSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //1. retrieve user's location
+
         fusedLocationClient = new FusedLocationProviderClient(this);
 
         locationCallback = new LocationCallback() {
@@ -91,15 +93,15 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
 
         ArrayList<Parking> sunwayUniversityParkings = new ArrayList<>();
-        sunwayUniversityParkings.add(new Parking("Sunway University Basement"));
-        sunwayUniversityParkings.add(new Parking("BRT Parking"));
+        sunwayUniversityParkings.add(new Parking("Sunway University Car Park", "Sunway+University+Car+Park"));
+        sunwayUniversityParkings.add(new Parking("Sun-U Monash BRT Station", "Rapid+Bus+Sdn+Bhd+(BRT+Sunway+Depot)"));
 
 
 
         String destinationName;
 
 
-        //1. take in parameter of destination chosen and user's location
+        //2. take in parameter of destination chosen and user's location
 
         Intent intent = getIntent();
 
@@ -110,9 +112,9 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
             TextView parkingSelectionTitle = findViewById(R.id.parkingSelectionTitle);
 
-            parkingSelectionTitle.setText("Parkings at " + destinationName);
+            parkingSelectionTitle.setText("Parkings for " + destinationName);
 
-            //2. retrieve the appropriate arrayList of places to search
+            //3. retrieve the appropriate arrayList of places to search
 
             ArrayList<Parking> parkings = new ArrayList<>();
 
@@ -122,13 +124,6 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
                     default:
             }
-
-
-
-
-
-            //3. retrieve user's location
-
 
 
             //4. updates parking objects in the list

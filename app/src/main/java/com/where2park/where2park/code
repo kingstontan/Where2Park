@@ -1,3 +1,28 @@
+for (int i = 0; i < response.length(); i++){
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject != null){
+                                JSONArray routesArray = jsonObject.getJSONArray("routes");
+                                if (routesArray != null){
+                                    for (int j = 0; j < routesArray.length(); j++){
+                                        JSONObject routesobj = routesArray.getJSONObject(i);
+                                        if(routesobj != null){
+                                            JSONArray legsArray = jsonObject.getJSONArray("legs");
+                                            if (legsArray != null){
+                                                for (int k = 0; k < routesArray.length(); k++){
+                                                    JSONObject duration = jsonObject.getJSONObject("duration");
+                                                    if (duration != null){
+                                                        setEtadrive(Integer.parseInt(duration.getString("text")));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+
     private void getLastKnownLocation() {
         Log.d(TAG, "getLastKnownLocation: called.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
