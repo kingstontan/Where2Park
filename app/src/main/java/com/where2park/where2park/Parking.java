@@ -11,6 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.maps.GeoApiContext;
 
 import org.json.JSONArray;
@@ -112,32 +114,36 @@ public class Parking implements Comparable<Parking>{
 
         // Request a string response from the provided URL.
 
+
+
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray routesArray = response.getJSONArray("routes");
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject responseObject) {
+                    try {
+                        Log.d(TAG, responseObject.toString());
+                        JSONArray routesArray = responseObject.getJSONArray("routes");
 
-                            JSONObject routesObject = routesArray.getJSONObject(0);
+                        JSONObject routesObject = routesArray.getJSONObject(0);
 
-                            JSONArray legsArray = routesObject.getJSONArray("legs");
+                        JSONArray legsArray = routesObject.getJSONArray("legs");
 
-                            JSONObject legsObject = legsArray.getJSONObject(0);
+                        JSONObject legsObject = legsArray.getJSONObject(0);
 
-                            JSONObject duration = legsObject.getJSONObject("duration");
+                        JSONObject duration = legsObject.getJSONObject("duration");
 
-                            setEtadrive(duration.getString("text"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        setEtadrive(duration.getString("text"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                 error.printStackTrace();
-            }
-        });
+                }
+            }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+             error.printStackTrace();
+        }
+    });
 
         // Add the request to the RequestQueue.
         queue.add(request);
@@ -148,6 +154,37 @@ public class Parking implements Comparable<Parking>{
     }
 
 
+//    private void calculateDirections(Location location){
+//        Log.d(TAG, "calculateDirections: calculating directions.");
+//
+//        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+//                marker.getPosition().latitude,
+//                marker.getPosition().longitude
+//        );
+//        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
+//
+//        directions.alternatives(true);
+//        directions.origin(
+//                new com.google.maps.model.LatLng(
+//                        mUserPosition.getGeo_point().getLatitude(),
+//                        mUserPosition.getGeo_point().getLongitude()
+//                )
+//        );
+//        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
+//        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+//            @Override
+//            public void onResult(DirectionsResult result) {
+//                Log.d(TAG, "onResult: routes: " + result.routes[0].toString());
+//                Log.d(TAG, "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                Log.e(TAG, "onFailure: " + e.getMessage() );
+//
+//            }
+//        });
+//    }
 
 
 }
