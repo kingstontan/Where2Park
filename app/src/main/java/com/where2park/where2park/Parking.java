@@ -13,7 +13,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.model.DirectionsResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,12 +100,11 @@ public class Parking implements Comparable<Parking>{
 
     public void updateRealTimeInfo(String apikey, Location location, Context context){
 
-
         if(mGeoApiContext == null){
             mGeoApiContext = new GeoApiContext.Builder().apiKey(apikey).build();
         }
 
-        // Instantiate the RequestQueue.
+        //Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
 
         String url =("https://maps.googleapis.com/maps/api/directions/json?" +
@@ -112,7 +114,7 @@ public class Parking implements Comparable<Parking>{
 
 
 
-        // Request a string response from the provided URL.
+    //     Request a string response from the provided URL.
 
 
 
@@ -158,24 +160,21 @@ public class Parking implements Comparable<Parking>{
 //        Log.d(TAG, "calculateDirections: calculating directions.");
 //
 //        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
-//                marker.getPosition().latitude,
-//                marker.getPosition().longitude
+//                3.066308, 101.604136
 //        );
 //        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
 //
 //        directions.alternatives(true);
 //        directions.origin(
 //                new com.google.maps.model.LatLng(
-//                        mUserPosition.getGeo_point().getLatitude(),
-//                        mUserPosition.getGeo_point().getLongitude()
+//                        location.getLatitude(), location.getLongitude()
 //                )
 //        );
 //        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
 //        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
 //            @Override
 //            public void onResult(DirectionsResult result) {
-//                Log.d(TAG, "onResult: routes: " + result.routes[0].toString());
-//                Log.d(TAG, "onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+//                Log.d(TAG, "calculateDirections: duration: " + result.routes[0].legs[0].duration);
 //            }
 //
 //            @Override

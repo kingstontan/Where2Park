@@ -1,6 +1,7 @@
 package com.where2park.where2park;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,12 +10,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +27,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
     private static final String TAG = "ParkingSelectionAct";
 
-    public static Location userLocation = new Location("");
+    private Location userLocation = new Location("");
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -66,6 +69,8 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
 
 
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,7 +82,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
-                    return;
+                    Log.d(TAG, "location null");
                 }
                 for (Location location : locationResult.getLocations()) {
                     userLocation = location;
@@ -85,6 +90,8 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             };
         };
 
+        Log.d(TAG, "blabla");
+        Log.d(TAG, userLocation.toString());
 
 
         super.onCreate(savedInstanceState);
@@ -125,7 +132,6 @@ public class ParkingSelectionActivity extends AppCompatActivity {
                     default:
             }
 
-
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
@@ -148,24 +154,13 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             parkingList.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-
-
         }
 
 
 
 
-
-
-
-
-
-
-
-
-
     }
+
 
     @Override
     public void finish() {
