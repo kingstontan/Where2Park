@@ -27,45 +27,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
 
     private static final String TAG = "ParkingSelectionAct";
 
-    private Location userLocation = new Location("");
 
-    private FusedLocationProviderClient fusedLocationClient;
-
-    private LocationCallback locationCallback;
-
-    private LocationRequest locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.requestLocationUpdates(locationRequest,
-                locationCallback,
-                null /* Looper */);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startLocationUpdates();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback);
-    }
 
 
 
@@ -73,25 +35,6 @@ public class ParkingSelectionActivity extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //1. retrieve user's location
-
-        fusedLocationClient = new FusedLocationProviderClient(this);
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    Log.d(TAG, "location null");
-                }
-                for (Location location : locationResult.getLocations()) {
-                    userLocation = location;
-                }
-            };
-        };
-
-        Log.d(TAG, "blabla");
-        Log.d(TAG, userLocation.toString());
 
 
         super.onCreate(savedInstanceState);
@@ -135,7 +78,7 @@ public class ParkingSelectionActivity extends AppCompatActivity {
             //4. updates parking objects in the list
 
             for(Parking p:parkings){
-                p.updateRealTimeInfo(getString(R.string.google_map_api_key),userLocation, this);
+                p.updateRealTimeInfo(getString(R.string.google_map_api_key),DestinationSelectionActivity.userLocation, this);
             }
 
             //5. inserts objects into arrayList in CORRECT sequence
